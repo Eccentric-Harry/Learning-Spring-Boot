@@ -2,8 +2,10 @@ package com.harry.Car.Impl;
 
 import com.harry.Car.Engine;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 
+@Component
 @Qualifier("powerEngine")
 public class PowerEngine implements Engine {
     @Override

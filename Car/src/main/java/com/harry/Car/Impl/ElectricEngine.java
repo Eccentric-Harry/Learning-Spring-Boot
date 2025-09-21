@@ -1,7 +1,9 @@
 package com.harry.Car.Impl;
 
 import com.harry.Car.Engine;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ElectricEngine implements Engine {
     @Override
     public void type() {

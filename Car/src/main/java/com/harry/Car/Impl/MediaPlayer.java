@@ -1,7 +1,10 @@
 package com.harry.Car.Impl;
 
 import com.harry.Car.Media;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MediaPlayer implements Media {
     @Override
     public void play() {
