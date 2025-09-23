@@ -6,7 +6,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class BookDaoImpl implements BookDao {
 
     private JdbcTemplate jdbcTemplate;
-    public BookDaoImpl(JdbcTemplate jdbcTemplate){
+
+    public BookDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 }

@@ -33,8 +33,6 @@ public class AuthorDaoImplTests {
 
         authorDao.create(author);
 
-        // Verify that jdbcTemplate is called with the correct SQL and parameters
-        // Note: Update this verification to match the actual SQL in your implementation
         verify(jdbcTemplate).update(
                 eq("INSERT INTO authors(ID , NAME, AGE) VALUES (?, ?, ?)"),
                 eq(1L),eq("Eccentric Harry"),eq(21)
