@@ -6,22 +6,17 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+
+import static javax.management.Query.eq;
 
 @Repository
 public class BookDaoImpl implements BookDao {
 
     private final JdbcTemplate jdbcTemplate;
-
-    // Book row mapper to convert database rows to Book objects
-    private final RowMapper<Book> bookRowMapper = (rs, rowNum) -> {
-        return Book.builder()
-                .isbn(rs.getString("ISBN"))
-                .title(rs.getString("TITLE"))
-                .authorId(rs.getLong("AUTHOR_ID"))
-                .build();
-    };
 
     public BookDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -38,37 +33,20 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Optional<Book> findByIsbn(String isbn) {
         List<Book> results = jdbcTemplate.query(
-                "SELECT * FROM books WHERE ISBN = ?",
-                bookRowMapper,
-                isbn
+                "SELECT isbn, title, author_id FROM books WHERE isbn = ? LIMIT 1",
+                    new BookRowMapper(), isbn
         );
-
         return results.isEmpty() ? Optional.empty() : Optional.of(results.getFirst());
     }
 
-    @Override
-    public List<Book> findAll() {
-        return jdbcTemplate.query(
-                "SELECT * FROM books",
-                bookRowMapper
-        );
-    }
-
-    @Override
-    public List<Book> findByAuthorId(Long authorId) {
-        return jdbcTemplate.query(
-                "SELECT * FROM books WHERE AUTHOR_ID = ?",
-                bookRowMapper,
-                authorId
-        );
-    }
-
-    @Override
-    public List<Book> findByTitleContaining(String titlePart) {
-        return jdbcTemplate.query(
-                "SELECT * FROM books WHERE TITLE LIKE ?",
-                bookRowMapper,
-                "%" + titlePart + "%"
-        );
+    public static class BookRowMapper implements RowMapper<Book>{
+        @Override
+        public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return Book.builder()
+                    .isbn(rs.getString("ISBN"))
+                    .title(rs.getString("Title"))
+                    .authorId(rs.getLong("AuthorID"))
+                    .build();
+        }
     }
 }

@@ -4,6 +4,8 @@ package com.harry.postgres.Dao;
 import com.harry.postgres.dao.impl.BookDaoImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatcher;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -35,6 +37,16 @@ public class BookDaoImplTests {
         verify(jdbcTemplate).update(
                 eq("INSERT INTO books(ISBN , TITLE, AUTHOR_ID) VALUES (?, ?, ?)"),
                 eq("978-3-16-148410-0"),eq("The Great Adventure"),eq(1L)
+        );
+    }
+
+    @Test
+    public void testThatFindByIsbnGeneratesCorrectSql(){
+        underTest.findByIsbn("978-3-16-148410-0");
+        verify(jdbcTemplate).query(
+                eq("SELECT isbn, title, author_id FROM books WHERE isbn = ? LIMIT 1"),
+                ArgumentMatchers.<BookDaoImpl.BookRowMapper>any(),
+                eq("978-3-16-148410-0")
         );
     }
 
