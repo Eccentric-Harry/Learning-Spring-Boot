@@ -4,7 +4,6 @@ package com.harry.postgres.Dao;
 import com.harry.postgres.dao.impl.BookDaoImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -26,11 +25,7 @@ public class BookDaoImplTests {
 
     @Test
     public void testThatCreateBookGeneratesCorrectSql(){
-        Book book = Book.builder()
-                .isbn("978-3-16-148410-0")
-                .title("The Great Adventure")
-                .authorId(1L)
-                .build();
+        Book book = TestDataUtil.createTestBook();
 
         underTest.create(book);
 

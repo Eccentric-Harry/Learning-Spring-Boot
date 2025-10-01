@@ -4,6 +4,7 @@ import com.harry.postgres.dao.BookDao;
 import com.harry.postgres.domain.Book;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 import static javax.management.Query.eq;
 
-@Repository
+@Component
 public class BookDaoImpl implements BookDao {
 
     private final JdbcTemplate jdbcTemplate;
@@ -26,14 +27,14 @@ public class BookDaoImpl implements BookDao {
     public void create(Book book) {
         jdbcTemplate.update(
                 "INSERT INTO books(ISBN , TITLE, AUTHOR_ID) VALUES (?, ?, ?)",
-                book.getIsbn(), book.getTitle(), book.getAuthorId()
+                book.getIsbn(), book.getTitle(), book.getAuthor_Id()
         );
     }
 
     @Override
     public Optional<Book> findByIsbn(String isbn) {
         List<Book> results = jdbcTemplate.query(
-                "SELECT isbn, title, author_id FROM books WHERE isbn = ? LIMIT 1",
+                "SELECT ISBN , TITLE, AUTHOR_ID FROM books WHERE ISBN = ? LIMIT 1",
                     new BookRowMapper(), isbn
         );
         return results.isEmpty() ? Optional.empty() : Optional.of(results.getFirst());
@@ -45,7 +46,7 @@ public class BookDaoImpl implements BookDao {
             return Book.builder()
                     .isbn(rs.getString("ISBN"))
                     .title(rs.getString("Title"))
-                    .authorId(rs.getLong("AuthorID"))
+                    .author_Id(rs.getLong("AUTHOR_ID"))
                     .build();
         }
     }
