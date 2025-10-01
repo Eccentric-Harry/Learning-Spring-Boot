@@ -13,7 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
 import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
@@ -23,6 +26,8 @@ public class BookDaoImplIntegrationTests {
     private AuthorDaoImpl authorDaoImpl;
 
     private BookDaoImpl underTest;
+    @Autowired
+    private BookDaoImpl bookDaoImpl;
 
     @Autowired
     public BookDaoImplIntegrationTests(BookDaoImpl underTest, AuthorDaoImpl authorDaoImpl) {
@@ -48,9 +53,13 @@ public class BookDaoImplIntegrationTests {
         Author authorB = TestDataUtil.createTestAuthorB();
         authorDaoImpl.create(authorB);
         Book bookA = TestDataUtil.createTestBookA();
+        bookDaoImpl.create(bookA);
         bookA.setAuthor_Id(authorA.getId());
         Book bookB = TestDataUtil.createTestBookB();
+        bookDaoImpl.create(bookB);
         bookB.setAuthor_Id(authorA.getId());
-        underTest.find();
+        List<Book> result = underTest.find();
+        System.out.println(result);
+        assertThat(result).hasSize(2);
     }
 }

@@ -71,6 +71,8 @@ public class BookDaoImplTests {
     }
 
     // what did we learn here is that, the unit tests can run independently of the database
-    // by mocking the jdbcTemplate. But for Integration test, the tests on Books need the present of Author with the AuthorId in the Authors table to satisfy the Referential Integrity constraint.
+    // by mocking the jdbcTemplate. But for Integration test,
+    // the tests on Books need the present of Author with the AuthorId in the
+    // Authors table to satisfy the Referential Integrity constraint.
 }
 
