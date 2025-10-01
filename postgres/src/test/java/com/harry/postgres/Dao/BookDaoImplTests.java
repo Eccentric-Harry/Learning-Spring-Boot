@@ -74,5 +74,18 @@ public class BookDaoImplTests {
     // by mocking the jdbcTemplate. But for Integration test,
     // the tests on Books need the present of Author with the AuthorId in the
     // Authors table to satisfy the Referential Integrity constraint.
+
+
+    @Test
+    public void testThatUpdateBookGeneratesCorrectSql(){
+        Book book = TestDataUtil.createTestBook();
+        System.out.println(book);
+        book.setIsbn("978-3-16-148410-0");
+        underTest.update(book);
+        verify(jdbcTemplate).update(
+                eq("UPDATE books SET isbn = ?, title = ?, author_id = ? WHERE isbn = ?"),
+                eq("978-3-16-148410-0"), eq("The Great Adventure"), eq(1L), eq("978-3-16-148410-0")
+        );
+    }
 }
 

@@ -28,8 +28,6 @@ public class BookDaoImplIntegrationTests {
     private AuthorDaoImpl authorDaoImpl;
 
     private BookDaoImpl underTest;
-    @Autowired
-    private BookDaoImpl bookDaoImpl;
 
     @Autowired
     public BookDaoImplIntegrationTests(BookDaoImpl underTest, AuthorDaoImpl authorDaoImpl) {
@@ -55,13 +53,27 @@ public class BookDaoImplIntegrationTests {
         Author authorB = TestDataUtil.createTestAuthorB();
         authorDaoImpl.create(authorB);
         Book bookA = TestDataUtil.createTestBookA();
-        bookDaoImpl.create(bookA);
+        underTest.create(bookA);
         bookA.setAuthor_Id(authorA.getId());
         Book bookB = TestDataUtil.createTestBookB();
-        bookDaoImpl.create(bookB);
+        underTest.create(bookB);
         bookB.setAuthor_Id(authorA.getId());
         List<Book> result = underTest.find();
         System.out.println(result);
         assertThat(result).hasSize(2);
+    }
+
+    @Test
+    public void testThatBookCanBeUpdatedAndRecalled(){
+        Author authorA = TestDataUtil.createTestAuthorA();
+        authorDaoImpl.create(authorA);
+        Book bookA = TestDataUtil.createTestBookA();
+        bookA.setAuthor_Id(authorA.getId());
+        underTest.create(bookA);
+        bookA.setTitle("UPDATED");
+        underTest.update(bookA);
+        Optional<Book> result = underTest.findByIsbn(bookA.getIsbn());
+        assertThat(result).isPresent();
+        assertThat(result.get()).isEqualTo(bookA);
     }
 }
