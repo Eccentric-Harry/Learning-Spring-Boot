@@ -87,5 +87,14 @@ public class BookDaoImplTests {
                 eq("978-3-16-148410-0"), eq("The Great Adventure"), eq(1L), eq("978-3-16-148410-0")
         );
     }
+
+    @Test
+    public void testThatDeleteBookGeneratesCorrectSql(){
+        underTest.delete("978-3-16-148410-0");
+        verify(jdbcTemplate).update(
+                eq("DELETE FROM books WHERE isbn = ?"),
+                eq("978-3-16-148410-0")
+        );
+    }
 }
 
