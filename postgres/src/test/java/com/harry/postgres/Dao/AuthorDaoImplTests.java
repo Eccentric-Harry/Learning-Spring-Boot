@@ -32,7 +32,7 @@ public class AuthorDaoImplTests {
 
         verify(jdbcTemplate).update(
                 eq("INSERT INTO authors(ID , NAME, AGE) VALUES (?, ?, ?)"),
-                eq(2L),eq("Harry"),eq(21)
+                eq(0L),eq("Harry"),eq(21)
         );
     }
 
@@ -61,7 +61,7 @@ public class AuthorDaoImplTests {
         underTest.update(3L, author);
         verify(jdbcTemplate).update(
                 eq("UPDATE authors SET id = ?, name = ?, age = ? WHERE id = ?"),
-                eq(0L), eq("Harry"), eq(21), eq(0L), eq(3L)
+                eq(0L), eq("Harry"), eq(21), eq(3L)
         );
     }
 }
