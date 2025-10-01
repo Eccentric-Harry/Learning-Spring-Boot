@@ -43,4 +43,25 @@ public final class TestDataUtil {
                 .author_Id(1L)
                 .build();
     }
+    static Book createTestBookA() {
+        return Book.builder()
+                .isbn("978-1-23-456789-0")
+                .title("Mystery of the Old House")
+                .author_Id(3L)
+                .build();
+    }
+    static Book createTestBookB() {
+        return Book.builder()
+                .isbn("978-0-12-345678-9")
+                .title("Journey to the Unknown")
+                .author_Id(4L)
+                .build();
+    }
+    static Book createTestBookC() {
+        return Book.builder()
+                .isbn("978-9-87-654321-0")
+                .title("Secrets of the Ancient World")
+                .author_Id(5L)
+                .build();
+    }
 }
