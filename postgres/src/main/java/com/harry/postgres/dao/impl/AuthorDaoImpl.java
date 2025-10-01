@@ -61,7 +61,7 @@ public class AuthorDaoImpl implements AuthorDao {
     public void update(long id, Author author) {
         jdbcTemplate.update(
                 "UPDATE authors SET id = ?, name = ?, age = ? WHERE id = ?",
-                author.getId(), author.getName(), author.getAge(), author.getId(), id
+                author.getId(), author.getName(), author.getAge(), id
         );
     }
 }
