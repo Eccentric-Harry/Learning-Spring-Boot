@@ -1,0 +1,24 @@
+package com.harry.JPA.domain;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "books")
+public class Book {
+    @Id
+    private String isbn;
+
+    private String title;
+
+    @ManyToOne(cascade = CascadeType.ALL) // all changes are persisted in the database.
+    @JoinColumn(name = "author_id")
+    private Author author;
+}
