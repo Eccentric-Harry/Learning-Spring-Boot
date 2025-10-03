@@ -8,8 +8,8 @@ public final class TestDataUtil {
     }
     public static Author createTestAuthorA() {
         return Author.builder()
-                .name("user 3")
-                .age(28)
+                .name("SuperMan")
+                .age(50)
                 .build();
     }
     public static Author createTestAuthorB() {
@@ -21,7 +21,7 @@ public final class TestDataUtil {
     public static Author createTestAuthorC() {
         return Author.builder()
                 .name("user 5")
-                .age(33)
+                .age(21)
                 .build();
     }
     public static Author createTestAuthor() {
