@@ -89,16 +89,14 @@ public class BookRepositoryImplementationTest {
         assertThat(result).isPresent();
         assertThat(result.get().getTitle()).isEqualTo("New Book Title");
     }
-//
-//    @Test
-//    public void testThatBookCanBeDeletedAndRecalled(){
-//        Author author = TestDataUtil.createTestAuthor();
-//        authorDaoImpl.create(author);
-//        Book book = TestDataUtil.createTestBook();
-//        book.setAuthor_Id(author.getId());
-//        underTest.create(book);
-//        underTest.delete(book.getIsbn());
-//        Optional<Book> result = underTest.findByIsbn(book.getIsbn());
-//        assertThat(result).isNotPresent();
-//    }
+
+    @Test
+    public void testThatBookCanBeDeletedAndRecalled(){
+        Author author = TestDataUtil.createTestAuthor();
+        Book book = TestDataUtil.createTestBook(author);
+        underTest.save(book);
+        underTest.deleteById(book.getIsbn());
+        Optional<Book> result = underTest.findById(book.getIsbn());
+        assertThat(result).isEmpty();
+    }
 }
