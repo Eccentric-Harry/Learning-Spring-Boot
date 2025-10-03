@@ -57,17 +57,20 @@ public class AuthorRepositoryIntegrationTest {
         Iterable<Author> result = underTest.findAll();
         assertThat(result).hasSize(3).containsExactlyInAnyOrder(authorA, authorB, authorC);
     }
-//
-//    @Test
-//    public void testThatAuthorCanBeUpdated(){
-//        Author authorA = TestDataUtil.createTestAuthorA();
-//        underTest.create(authorA);
-//        authorA.setName("UPDATED");
-//        underTest.update(authorA.getId(), authorA);
-//        Optional<Author> result = underTest.findOne(authorA.getId());
-//        assertThat(result).isPresent();
-//        assertThat(result.get()).isEqualTo(authorA);
-//    }
+
+    @Test
+    public void testThatAuthorCanBeUpdated(){
+        Author authorA = TestDataUtil.createTestAuthorA();
+        System.out.println("AuthorA's Name: " + authorA.getName());
+        underTest.save(authorA);
+        authorA.setName("Hello World");
+        underTest.save(authorA);
+        System.out.println("AuthorA's Name: " + authorA.getName());
+        Optional<Author> result = underTest.findById(authorA.getId());
+        System.out.println(result);
+        assertThat(result).isPresent();
+        assertThat(result.get().getName()).isEqualTo("Hello World");
+    }
 //
 //    @Test
 //    public void testThatAuthorCanBeDeleted(){

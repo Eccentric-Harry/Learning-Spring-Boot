@@ -70,34 +70,25 @@ public class BookRepositoryImplementationTest {
        assertThat(result).hasSize(2);
     }
 
-//    @Test
-//    public void testThatMultipleBooksCanBeCreatedAndRecalled(){
-//        Author authorA = TestDataUtil.createTestAuthorA();
-//        underTest.save(authorA);
-//        Author authorB = TestDataUtil.createTestAuthorB();
-//        underTest.save(authorB);
-//        Book bookA = TestDataUtil.createTestBookA(authorA);
-//        underTest.save(bookA);
-//        Book bookB = TestDataUtil.createTestBookB(authorB);
-//        underTest.save(bookB);
-//        Iterable<Book> result = underTest.findAll();
-//        System.out.println(result);
-//        assertThat(result).hasSize(2);
-//    }
-//
-//    @Test
-//    public void testThatBookCanBeUpdatedAndRecalled(){
-//        Author authorA = TestDataUtil.createTestAuthorA();
-//        authorDaoImpl.create(authorA);
-//        Book bookA = TestDataUtil.createTestBookA();
-//        bookA.setAuthor_Id(authorA.getId());
-//        underTest.create(bookA);
-//        bookA.setTitle("UPDATED");
-//        underTest.update(bookA);
-//        Optional<Book> result = underTest.findByIsbn(bookA.getIsbn());
-//        assertThat(result).isPresent();
-//        assertThat(result.get()).isEqualTo(bookA);
-//    }
+
+    @Test
+    public void testThatBookCanBeUpdatedAndRecalled(){
+        Author author = TestDataUtil.createTestAuthor();
+        Author savedAuthor = authorRepository.save(author);
+        Book book = Book.builder()
+                .isbn("123-456-789")
+                .title("Test Book")
+                .author(savedAuthor)
+                .build();
+        underTest.save(book);
+        System.out.println("Book Title before update: " + book.getTitle());
+        book.setTitle("New Book Title");
+        underTest.save(book);
+        Optional<Book> result = underTest.findById(book.getIsbn());
+        System.out.println("Book Title after update: " + result.get().getTitle());
+        assertThat(result).isPresent();
+        assertThat(result.get().getTitle()).isEqualTo("New Book Title");
+    }
 //
 //    @Test
 //    public void testThatBookCanBeDeletedAndRecalled(){
