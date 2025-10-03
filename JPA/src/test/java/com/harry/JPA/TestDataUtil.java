@@ -48,7 +48,7 @@ public final class TestDataUtil {
     }
     public static Book createTestBookB(final Author author) {
         return Book.builder()
-                .isbn("somerandom")
+                .isbn("978-4-56-789012-0")
                 .title("Journey to the Unknown")
                 .author(author)
                 .build();

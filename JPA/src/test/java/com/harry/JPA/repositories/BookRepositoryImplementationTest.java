@@ -19,28 +19,57 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@Transactional
 public class BookRepositoryImplementationTest {
 
 
     private final BookRepository underTest;
+    private final AuthorRepository authorRepository;
 
     @Autowired
-    public BookRepositoryImplementationTest(BookRepository underTest) {
+    public BookRepositoryImplementationTest(BookRepository underTest, AuthorRepository authorRepository) {
         this.underTest = underTest;
+        this.authorRepository = authorRepository;
     }
 
-    @Transactional
+
     @Test
     public void testThatBookCanBeCreatedAndRecalled(){
         Author author = TestDataUtil.createTestAuthor();
-        System.out.println(author);
-        Book book = TestDataUtil.createTestBook(author);
+        Author savedAuthor = authorRepository.save(author);
+        Book book = Book.builder()
+                .isbn("123-456-789")
+                .title("Test Book")
+                .author(savedAuthor)
+                .build();
         underTest.save(book);
         Optional<Book> result = underTest.findById(book.getIsbn());
-        assertThat(result.isPresent());
+        System.out.println(result);
+        assertThat(result).isPresent();
         assertThat(result.get()).isEqualTo(book);
     }
-//
+
+    @Test
+    public void testThatMultipleBooksCanBeCreatedAndRecalled(){
+        Author author = TestDataUtil.createTestAuthor();
+        Author savedAuthor = authorRepository.save(author);
+        Book bookA = Book.builder()
+                .isbn("123-456-789")
+                .title("Test Book A")
+                .author(savedAuthor)
+                .build();
+        Book bookB = Book.builder()
+                .isbn("987-654-321")
+                .title("Test Book B")
+                .author(savedAuthor)
+                .build();
+       underTest.save(bookA);
+       underTest.save(bookB);
+       List<Book> result = (List<Book>) underTest.findAll();
+       System.out.println(result);
+       assertThat(result).hasSize(2);
+    }
+
 //    @Test
 //    public void testThatMultipleBooksCanBeCreatedAndRecalled(){
 //        Author authorA = TestDataUtil.createTestAuthorA();
