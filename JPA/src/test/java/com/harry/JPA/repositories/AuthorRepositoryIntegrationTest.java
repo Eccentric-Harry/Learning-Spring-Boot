@@ -103,6 +103,6 @@ public class AuthorRepositoryIntegrationTest {
         underTest.save(authorB);
         underTest.save(authorC);
         Iterable<Author> result = underTest.findByNameStartingWith("S");
-        assertThat(result).containsExactly(authorA)
+        assertThat(result).containsExactly(authorA);
     }
 }
