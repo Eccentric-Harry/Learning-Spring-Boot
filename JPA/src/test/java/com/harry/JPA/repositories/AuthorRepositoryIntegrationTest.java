@@ -20,6 +20,7 @@ import static org.springframework.test.annotation.DirtiesContext.MethodMode.BEFO
 @ExtendWith(SpringExtension.class)
 //@DataJpaTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@Transactional
 
 public class AuthorRepositoryIntegrationTest {
 
@@ -31,7 +32,7 @@ public class AuthorRepositoryIntegrationTest {
     }
 
 
-    @Transactional
+
     @Test
     public void testThatAuthorCanBeCreatedAndRecalled(){
         Author author = TestDataUtil.createTestAuthor();
@@ -42,7 +43,7 @@ public class AuthorRepositoryIntegrationTest {
     }
 
 
-    @Transactional
+
     @Test
     public void testThatMultipleAuthorsCanBeCreatedAndRecalled(){
         Author authorA = TestDataUtil.createTestAuthorA();
