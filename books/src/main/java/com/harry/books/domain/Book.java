@@ -1,5 +1,6 @@
 package com.harry.books.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -23,5 +24,6 @@ public class Book {
 
     private String author;
 
+//    @JsonProperty("year")
     private String yearPublished;
 }
