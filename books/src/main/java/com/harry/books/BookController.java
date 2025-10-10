@@ -27,4 +27,10 @@ public class BookController {
         return book;
     }
 
+    @PostMapping(path = "/addBooks")
+    public Book addBook(@RequestBody final Book book){
+        log.info("Got Book: " + book.toString());
+        return book;
+    }
+
 }
