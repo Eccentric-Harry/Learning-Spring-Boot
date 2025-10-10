@@ -1,4 +1,4 @@
-package com.harry.books;
+package com.harry.books.controllers;
 
 import com.harry.books.domain.Book;
 import lombok.extern.java.Log;
@@ -27,10 +27,6 @@ public class BookController {
         return book;
     }
 
-    @PostMapping(path = "/addBooks")
-    public Book addBook(@RequestBody final Book book){
-        log.info("Got Book: " + book.toString());
-        return book;
-    }
+
 
 }
