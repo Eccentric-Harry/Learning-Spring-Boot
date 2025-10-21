@@ -1,6 +1,6 @@
 package com.harry.books.controllers;
 
-import com.harry.books.domain.Book;
+import com.harry.books.domain.entity.BookEntity;
 import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Log
 public class BookController {
     @GetMapping(path = "/books")
-    public Book retrieveBook(){
-        return Book.builder()
+    public BookEntity retrieveBook(){
+        return BookEntity.builder()
                 .isbn("234567823456")
                 .title("The Enigma of Eternity")
                 .author("Aria Montgomery")
@@ -22,9 +22,9 @@ public class BookController {
     }
 
     @PostMapping(path = "/books")
-    public Book createBook(@RequestBody final Book book){
-        log.info("Got Book: " + book.toString());
-        return book;
+    public BookEntity createBook(@RequestBody final BookEntity bookEntity){
+        log.info("Got Book: " + bookEntity.toString());
+        return bookEntity;
     }
 
 

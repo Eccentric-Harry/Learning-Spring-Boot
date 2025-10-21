@@ -1,13 +1,13 @@
 package com.harry.books.mapper.implementation;
 
-import com.harry.books.domain.Author;
+import com.harry.books.domain.entity.AuthorEntity;
 import com.harry.books.domain.dto.AuthorDto;
 import com.harry.books.mapper.Mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthorMapperImpl implements Mapper<Author, AuthorDto> {
+public class AuthorMapperImpl implements Mapper<AuthorEntity, AuthorDto> {
 
     private ModelMapper modelMapper;
 
@@ -16,12 +16,12 @@ public class AuthorMapperImpl implements Mapper<Author, AuthorDto> {
     }
 
     @Override
-    public Author mapFrom(AuthorDto authorDto) {
-        return modelMapper.map(authorDto, Author.class);
+    public AuthorEntity mapFrom(AuthorDto authorDto) {
+        return modelMapper.map(authorDto, AuthorEntity.class);
     }
 
     @Override
-    public AuthorDto mapTo(Author author) {
-        return modelMapper.map(author, AuthorDto.class);
+    public AuthorDto mapTo(AuthorEntity authorEntity) {
+        return modelMapper.map(authorEntity, AuthorDto.class);
     }
 }

@@ -1,11 +1,10 @@
 package com.harry.books.services;
 
-import com.harry.books.domain.Author;
-import com.harry.books.domain.dto.AuthorDto;
+import com.harry.books.domain.entity.AuthorEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface AuthorService {
 
-    Author createAuthor(AuthorDto author);
+    AuthorEntity createAuthor(AuthorEntity author);
 }

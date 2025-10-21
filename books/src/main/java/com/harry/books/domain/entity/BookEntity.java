@@ -1,6 +1,6 @@
-package com.harry.books.domain;
+package com.harry.books.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "books")
-public class Book {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class BookEntity {
 
     @Id
     private String isbn;
