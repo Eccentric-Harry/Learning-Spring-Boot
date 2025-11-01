@@ -1,4 +1,18 @@
 package com.harry.books.domain.dto;
 
-public interface BookDto {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class BookDto {
+    private String isbn;
+
+    private String title;
+
+    private AuthorDto author;
 }

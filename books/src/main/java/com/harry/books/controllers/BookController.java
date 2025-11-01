@@ -1,32 +1,32 @@
 package com.harry.books.controllers;
 
+import com.harry.books.domain.dto.BookDto;
 import com.harry.books.domain.entity.BookEntity;
+import com.harry.books.mapper.Mapper;
+import com.harry.books.services.BookService;
 import lombok.extern.java.Log;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @Log
 public class BookController {
-    @GetMapping(path = "/books")
-    public BookEntity retrieveBook(){
-        return BookEntity.builder()
-                .isbn("234567823456")
-                .title("The Enigma of Eternity")
-                .author("Aria Montgomery")
-                .yearPublished("2005")
-                .build();
+
+    private final BookService bookService;
+
+    private final Mapper<BookEntity, BookDto> bookMapper;
+    public BookController(BookService bookService, Mapper<BookEntity, BookDto> bookMapper) {
+        this.bookService = bookService;
+        this.bookMapper = bookMapper;
     }
 
-    @PostMapping(path = "/books")
-    public BookEntity createBook(@RequestBody final BookEntity bookEntity){
-        log.info("Got Book: " + bookEntity.toString());
-        return bookEntity;
+    @PutMapping("/books/{isbn}")
+    public ResponseEntity<BookDto> createBook(@PathVariable String isbn, @RequestBody BookDto bookDto) throws Exception {
+        BookEntity bookEntity = bookMapper.mapFrom(bookDto);
+        BookEntity savedBookEntity = bookService.createBook(isbn, bookEntity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookMapper.mapTo(savedBookEntity));
     }
-
-
-
 }

@@ -1,9 +1,7 @@
 package com.harry.books.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,8 +21,8 @@ public class BookEntity {
 
     private String title;
 
-    private String author;
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private AuthorEntity author;
 
-//    @JsonProperty("year")
-    private String yearPublished;
 }

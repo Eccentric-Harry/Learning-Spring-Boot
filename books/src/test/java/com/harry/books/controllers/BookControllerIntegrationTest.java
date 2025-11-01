@@ -2,65 +2,63 @@ package com.harry.books.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.harry.books.TestDataUtil;
-import com.harry.books.domain.entity.AuthorEntity;
+import com.harry.books.domain.dto.BookDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.http.MediaType;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-public class AuthorControllerIntegrationTest {
+public class BookControllerIntegrationTest {
 
-    private final MockMvc mockMvc;
+    private MockMvc mockMvc;
+    @Autowired
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public AuthorControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper) {
+    public BookControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper) {
         this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
     }
 
+
     @Test
-    public void testThatCreateAuthorSuccessfullyReturnsHttp201Created() throws Exception {
-        AuthorEntity testAuthorA = TestDataUtil.createTestAuthorA();
-        testAuthorA.setId(null);
-        String authorJson = objectMapper.writeValueAsString(testAuthorA);
+    public void testThatCreateBookSuccessfullyReturnsHTTP201() throws Exception {
+        BookDto bookDto = TestDataUtil.createTestBookA(null);
+        String bookJson = objectMapper.writeValueAsString(bookDto);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/authors")
+                MockMvcRequestBuilders.put("/books/{isbn}", bookDto.getIsbn())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(authorJson)
+                        .content(bookJson)
         ).andExpect(
                 MockMvcResultMatchers.status().isCreated()
         );
     }
 
     @Test
-    public void testThatCreateAuthorSuccessfullyReturnsSavedAuthor() throws Exception {
-        AuthorEntity testAuthorA = TestDataUtil.createTestAuthorA();
-        testAuthorA.setId(null);
-        String authorJson = objectMapper.writeValueAsString(testAuthorA);
+    public void testThatCreateBookSuccessfullyReturnsCreatedBook() throws Exception {
+        BookDto bookDto = TestDataUtil.createTestBookA(null);
+        String bookJson = objectMapper.writeValueAsString(bookDto);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/authors")
+                MockMvcRequestBuilders.put("/books/{isbn}", bookDto.getIsbn())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(authorJson)
+                        .content(bookJson)
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.id").isNumber()
+                MockMvcResultMatchers.jsonPath("$.isbn").value(bookDto.getIsbn())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.name").value("SuperMan")
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.age").value("50")
+                MockMvcResultMatchers.jsonPath("$.title").value(bookDto.getTitle())
         );
     }
 }
