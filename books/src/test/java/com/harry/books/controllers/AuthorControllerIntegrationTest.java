@@ -3,6 +3,7 @@ package com.harry.books.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.harry.books.TestDataUtil;
 import com.harry.books.domain.entity.AuthorEntity;
+import com.harry.books.services.AuthorService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,13 @@ public class AuthorControllerIntegrationTest {
 
     private final MockMvc mockMvc;
     private final ObjectMapper objectMapper;
+    private final AuthorService authorService;
 
     @Autowired
-    public AuthorControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper) {
+    public AuthorControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper,  AuthorService authorService) {
         this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
+        this.authorService = authorService;
     }
 
     @Test
@@ -61,6 +64,30 @@ public class AuthorControllerIntegrationTest {
                 MockMvcResultMatchers.jsonPath("$.name").value("SuperMan")
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.age").value("50")
+        );
+    }
+
+    @Test
+    public void testThatListAuthorsReturnsHTTP200() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/authors")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void testThatListAuthorsReturnsListOfAuthors() throws Exception {
+        
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/authors")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].id").isNumber()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].name").value("Aria Montgomery")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].age").value("80")
         );
     }
 }
