@@ -78,7 +78,7 @@ public class AuthorControllerIntegrationTest {
 
     @Test
     public void testThatListAuthorsReturnsListOfAuthors() throws Exception {
-        
+
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/authors")
                         .contentType(MediaType.APPLICATION_JSON)
